@@ -3,12 +3,11 @@ module github.com/udhos/groupcache_oidcpismo
 go 1.26.0
 
 require (
-	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/modernprogram/groupcache/v2 v2.7.13
 	github.com/prometheus/client_golang v1.23.2
 	github.com/udhos/groupcache_exporter v1.3.8
-	github.com/udhos/oidcpismo v0.0.5
+	github.com/udhos/oidcpismo v0.0.6
 )
 
 require (

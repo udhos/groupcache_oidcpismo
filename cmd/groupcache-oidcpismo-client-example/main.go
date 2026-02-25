@@ -15,7 +15,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/udhos/groupcache_oidcpismo/oidc"
 	"github.com/udhos/oidcpismo/oidcpismo"
 )
