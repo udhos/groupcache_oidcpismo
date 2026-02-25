@@ -85,13 +85,14 @@ func DefaultBadTokenStatusFunc(status int) bool {
 	return status == 401
 }
 
-// Client is context for invokations with client-credentials flow.
+// Client is an HTTP client that can automatically obtain and refresh OIDC tokens
+// for Pismo, while managing cached tokens in distributed cache groupcache.
 type Client struct {
 	options Options
 	group   *groupcache.Group
 }
 
-// New creates a client.
+// New creates a Client.
 func New(options Options) *Client {
 	if options.GroupcacheWorkspace == nil {
 		panic("groupcache workspace is nil")

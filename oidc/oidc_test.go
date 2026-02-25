@@ -168,7 +168,8 @@ func TestConcurrency(t *testing.T) {
 	wg.Wait()
 }
 
-func TestClientCredentialsExpiration(t *testing.T) {
+// go test -count 1 -run TestExpiration ./...
+func TestExpiration(t *testing.T) {
 
 	expireIn := 1
 	softExpire := -1 // disable soft expire
@@ -214,6 +215,8 @@ func TestClientCredentialsExpiration(t *testing.T) {
 		}
 	}
 
+	time.Sleep(time.Second)
+
 	// send 2
 
 	{
@@ -221,7 +224,7 @@ func TestClientCredentialsExpiration(t *testing.T) {
 		if errSend2 != nil {
 			t.Errorf("send: %v", errSend2)
 		}
-		if tokenServerStat.count != 1 {
+		if tokenServerStat.count != 2 {
 			t.Errorf("unexpected token server access count: %d", tokenServerStat.count)
 		}
 		if serverStat.count != 2 {
