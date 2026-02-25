@@ -303,7 +303,7 @@ func TestForcedExpiration(t *testing.T) {
 	{
 		result, errSend3 := send(client, srv.URL, h)
 		if errSend3 == nil {
-			t.Errorf("unexpected send successs")
+			t.Errorf("unexpected send success")
 		}
 		if result.status != 401 {
 			t.Errorf("unexpected status: %d", result.status)
