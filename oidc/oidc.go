@@ -142,10 +142,8 @@ func New(options Options) *Client {
 		ExpiredKeysEvictionInterval: options.ExpiredKeysEvictionInterval,
 		CacheBytesLimit:             cacheSizeBytes,
 		Getter: groupcache.GetterFunc(
-			func(ctx context.Context, _ /*key*/ string, dest groupcache.Sink,
-				info *groupcache.Info) error {
-
-				accountID := info.Ctx1
+			func(ctx context.Context, accountID string, dest groupcache.Sink,
+				_ *groupcache.Info) error {
 
 				ti, errTok := c.fetchToken(ctx, accountID)
 				if errTok != nil {
@@ -203,8 +201,9 @@ func (c *Client) Do(req *http.Request) (*http.Response, error) {
 
 	// get token from cache, renewing it if necessary
 	ctx := req.Context()
-	accessToken, errToken := c.getToken(ctx, accountID)
-	if errToken != nil {
+	var accessToken string
+	if errToken := c.group.Get(ctx, accountID,
+		groupcache.StringSink(&accessToken), nil); errToken != nil {
 		return nil, errToken
 	}
 
@@ -230,19 +229,6 @@ func (c *Client) Do(req *http.Request) (*http.Response, error) {
 func (c *Client) send(req *http.Request, accessToken string) (*http.Response, error) {
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
 	return c.options.Options.Client.Do(req)
-}
-
-// getToken retrieves accessToken from cache, renewing it if necessary.
-func (c *Client) getToken(ctx context.Context, accountID string) (
-	accessToken string,
-	err error) {
-
-	info := &groupcache.Info{
-		Ctx1: accountID,
-	}
-
-	err = c.group.Get(ctx, accountID, groupcache.StringSink(&accessToken), info)
-	return
 }
 
 // fetchToken actually retrieves new access token from token server.
