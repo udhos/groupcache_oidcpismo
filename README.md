@@ -6,6 +6,12 @@
 
 https://github.com/udhos/groupcache_oidcpismo implements the OIDC flow for Pismo while cacheing tokens with distributed cache [groupcache](https://github.com/modernprogram/groupcache).
 
+See:
+
+https://developers.pismo.io/pismo-docs/docs/authentication-with-openid#generate-your-jwt
+
+https://developers.pismo.io/pismo-docs/reference/post-passport-v1-oauth2-token-1
+
 # Synopsis
 
 Create an HTTP client that can automatically obtain and refresh OIDC tokens for Pismo, while managing cached tokens in distributed cache groupcache.
