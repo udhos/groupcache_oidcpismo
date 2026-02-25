@@ -35,8 +35,8 @@ github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
 github.com/udhos/groupcache_exporter v1.3.8 h1:+MbWcVF0DdaUU6vol0bfwT8jYKrRybFFFpvWpPlmV8M=
 github.com/udhos/groupcache_exporter v1.3.8/go.mod h1:KExTlCmGhJHG4Vd7d4pSD7D2rkOIhJG5qT6QGNfv9/k=
-github.com/udhos/oidcpismo v0.0.6 h1:S0E043prOlRjFg/xlJ4PB/gKjiPAVEV8XbRrYwkeR60=
-github.com/udhos/oidcpismo v0.0.6/go.mod h1:j4Odvo9Y9iRpOy9tlPi6SQsEXDT1sWTFIiV2FBIfMTw=
+github.com/udhos/oidcpismo v0.0.7 h1:+VAN22guimABdJNKIfzGDWnM8KNkbPOiBgS6LN0zF1U=
+github.com/udhos/oidcpismo v0.0.7/go.mod h1:j4Odvo9Y9iRpOy9tlPi6SQsEXDT1sWTFIiV2FBIfMTw=
 go.uber.org/goleak v1.3.0 h1:2K3zAYmnTNqV73imy9J1T3WC+gmCePx2hEGkimedGto=
 go.uber.org/goleak v1.3.0/go.mod h1:CoHD4mav9JJNrW/WLlf7HGZPjdw8EucARQHekz1X6bE=
 go.yaml.in/yaml/v2 v2.4.3 h1:6gvOSjQoTB3vt1l+CU+tSyi/HOjfOjRLJ4YwYZGwRO0=

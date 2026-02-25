@@ -727,7 +727,7 @@ func newTokenServer(serverInfo *serverStat, pubKey *rsa.PublicKey, expireIn int)
 		// reply with access token
 
 		var resp oidcpismo.Response
-		resp.AccessToken = accessToken
+		resp.Token = accessToken
 		resp.ExpiresIn = fmt.Sprint(expireIn)
 		resp.RefreshToken = "some-refresh-token"
 		data, err := json.Marshal(&resp)

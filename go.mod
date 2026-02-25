@@ -7,7 +7,7 @@ require (
 	github.com/modernprogram/groupcache/v2 v2.7.13
 	github.com/prometheus/client_golang v1.23.2
 	github.com/udhos/groupcache_exporter v1.3.8
-	github.com/udhos/oidcpismo v0.0.6
+	github.com/udhos/oidcpismo v0.0.7
 )
 
 require (

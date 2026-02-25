@@ -16,11 +16,6 @@ import (
 // DefaultGroupCacheSizeBytes is default group cache size when unspecified.
 const DefaultGroupCacheSizeBytes = 10_000_000
 
-// HTTPClientDoer interface allows the caller to easily plug in a custom http client.
-type HTTPClientDoer interface {
-	Do(req *http.Request) (*http.Response, error)
-}
-
 // Options define client options.
 type Options struct {
 	// Options for package oidcpismo to retrieve access token.
@@ -208,7 +203,8 @@ func (c *Client) Do(req *http.Request) (*http.Response, error) {
 	}
 
 	// send request with header Authorization: Bearer <access_token>
-	resp, errResp := c.send(req, accessToken)
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
+	resp, errResp := c.options.Options.Client.Do(req)
 	if errResp != nil {
 		return nil, errResp
 	}
@@ -224,11 +220,6 @@ func (c *Client) Do(req *http.Request) (*http.Response, error) {
 	}
 
 	return resp, nil
-}
-
-func (c *Client) send(req *http.Request, accessToken string) (*http.Response, error) {
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", accessToken))
-	return c.options.Options.Client.Do(req)
 }
 
 // fetchToken actually retrieves new access token from token server.
@@ -251,7 +242,7 @@ func (c *Client) fetchToken(ctx context.Context,
 		return
 	}
 
-	ti.accessToken = resp.AccessToken
+	ti.accessToken = resp.Token
 	ti.expire = time.Duration(exp) * time.Second
 
 	return
