@@ -51,6 +51,10 @@ req.Header.Add("x-account-id", "some-account-id")
 resp, errDo = client.Do(req)
 ```
 
+# Example
+
+See [cmd/groupcache-oidcpismo-client-example/main.go](cmd/groupcache-oidcpismo-client-example/main.go) for a complete example.
+
 # Testing
 
 Start the token server `oidcpismo-server` from project https://github.com/udhos/oidcpismo:
