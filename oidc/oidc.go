@@ -44,9 +44,6 @@ type Options struct {
 	// GroupcacheSizeBytes limits the cache size. If unspecified, defaults to 10MB.
 	GroupcacheSizeBytes int64
 
-	// Debug enables debug logging.
-	Debug bool
-
 	// DisablePurgeExpired disables removing all expired items when the oldest item is removed.
 	DisablePurgeExpired bool
 

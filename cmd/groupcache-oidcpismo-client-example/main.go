@@ -123,7 +123,6 @@ func main() {
 		SoftExpireInSeconds: app.softExpireSeconds,
 		GroupcacheWorkspace: groupcacheWorkspace,
 		DisablePurgeExpired: !app.purgeExpired,
-		Debug:               app.debug,
 	}
 
 	client := oidc.New(options)
