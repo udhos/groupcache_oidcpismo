@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"log/slog"
 	"maps"
 	"net/http"
 	"os"
@@ -69,6 +70,11 @@ func main() {
 	flag.DurationVar(&app.pismoExpire, "pismoExpire", time.Minute, "pismo expire duration")
 
 	flag.Parse()
+
+	if app.debug {
+		h := slog.NewJSONHandler(os.Stderr, &slog.HandlerOptions{Level: slog.LevelDebug})
+		slog.SetDefault(slog.New(h))
+	}
 
 	// load private key
 	privKeyPem, errRead := os.ReadFile(app.privKeyFile)
