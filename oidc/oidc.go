@@ -4,7 +4,7 @@ package oidc
 import (
 	"context"
 	"fmt"
-	"log"
+	"log/slog"
 	"net/http"
 	"strconv"
 	"time"
@@ -43,9 +43,6 @@ type Options struct {
 
 	// GroupcacheSizeBytes limits the cache size. If unspecified, defaults to 10MB.
 	GroupcacheSizeBytes int64
-
-	// Logf provides logging function, if undefined defaults to log.Printf
-	Logf func(format string, v ...any)
 
 	// Debug enables debug logging.
 	Debug bool
@@ -105,10 +102,6 @@ func New(options Options) *Client {
 		options.SoftExpireInSeconds = 0
 	}
 
-	if options.Logf == nil {
-		options.Logf = log.Printf
-	}
-
 	if options.IsBadTokenStatus == nil {
 		options.IsBadTokenStatus = DefaultBadTokenStatusFunc
 	}
@@ -163,16 +156,6 @@ func New(options Options) *Client {
 	return c
 }
 
-func (c *Client) errorf(format string, v ...any) {
-	c.options.Logf("ERROR: "+format, v...)
-}
-
-func (c *Client) debugf(format string, v ...any) {
-	if c.options.Debug {
-		c.options.Logf("DEBUG: "+format, v...)
-	}
-}
-
 func (c *Client) getAccountID(req *http.Request) (string, string) {
 	if accountID := c.options.GetPathValueFromRequest(req, "accountId"); accountID != "" {
 		return accountID, "path"
@@ -193,7 +176,9 @@ func (c *Client) Do(req *http.Request) (*http.Response, error) {
 
 	// get account id from request
 	accountID, accountIDSource := c.getAccountID(req)
-	c.debugf("account_id=%q accoud_id_source=%q", accountID, accountIDSource)
+	slog.Debug("groupcache_oidcpismo: Client.Do",
+		"accountId", accountID,
+		"accountIdSource", accountIDSource)
 
 	// get token from cache, renewing it if necessary
 	ctx := req.Context()
@@ -216,7 +201,10 @@ func (c *Client) Do(req *http.Request) (*http.Response, error) {
 		// renew it at the next invokation.
 		//
 		if errRemove := c.group.Remove(ctx, accountID); errRemove != nil {
-			c.errorf("cache remove error: %v", errRemove)
+			slog.Error("groupcache_oidcpismo: Client.Do: cache remove error",
+				"accountId", accountID,
+				"accountIdSource", accountIDSource,
+				"error", errRemove)
 		}
 	}
 
@@ -245,6 +233,10 @@ func (c *Client) fetchToken(ctx context.Context,
 
 	ti.accessToken = resp.Token
 	ti.expire = time.Duration(exp) * time.Second
+
+	slog.Debug("groupcache_oidcpismo: fetchToken",
+		"accountId", accountID,
+		"expire", ti.expire)
 
 	return
 }
