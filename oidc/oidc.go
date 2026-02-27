@@ -63,14 +63,14 @@ type Options struct {
 	IsBadTokenStatus func(status int) bool
 
 	// GetAccountIDFromRequest extracts accountId from request.
-	// If undefined, defaults to
+	// If undefined, defaults to DefaultGetAccountIDFromRequest.
 	GetAccountIDFromRequest func(req *http.Request) (string, string)
 }
 
-// DefaultGetAccountIDFromRequest is used as default when option GetAccountIDFromRequest
-// is left undefined.
-// DefaultGetAccountIDFromRequest attempts to extract accountId from request path and
-// then from request header X-Account-ID.
+// DefaultGetAccountIDFromRequest is used as default when option
+// GetAccountIDFromRequest is left undefined.
+// DefaultGetAccountIDFromRequest attempts to extract accountId from request
+// path and then from request header X-Account-ID.
 func DefaultGetAccountIDFromRequest(req *http.Request) (string, string) {
 	if accountID := req.PathValue("accountId"); accountID != "" {
 		return accountID, "path"
