@@ -62,15 +62,23 @@ type Options struct {
 	// If undefined, defaults to DefaultBadTokenStatusFunc that just checks for 401.
 	IsBadTokenStatus func(status int) bool
 
-	// GetPathValueFromRequest gets a value from the request path.
-	// If undefined, defaults to DefaultGetPathValueFromRequest that just calls req.PathValue.
-	GetPathValueFromRequest func(req *http.Request, key string) string
+	// GetAccountIDFromRequest extracts accountId from request.
+	// If undefined, defaults to
+	GetAccountIDFromRequest func(req *http.Request) (string, string)
 }
 
-// DefaultGetPathValueFromRequest is used as default when option GetPathValueFromRequest
+// DefaultGetAccountIDFromRequest is used as default when option GetAccountIDFromRequest
 // is left undefined.
-func DefaultGetPathValueFromRequest(req *http.Request, key string) string {
-	return req.PathValue(key)
+// DefaultGetAccountIDFromRequest attempts to extract accountId from request path and
+// then from request header X-Account-ID.
+func DefaultGetAccountIDFromRequest(req *http.Request) (string, string) {
+	if accountID := req.PathValue("accountId"); accountID != "" {
+		return accountID, "path"
+	}
+	if accountID := req.Header.Get("X-Account-ID"); accountID != "" {
+		return accountID, "header"
+	}
+	return "", "not-found"
 }
 
 // DefaultBadTokenStatusFunc is used as default when option IsBadTokenStatus is left undefined.
@@ -103,8 +111,8 @@ func New(options Options) *Client {
 		options.IsBadTokenStatus = DefaultBadTokenStatusFunc
 	}
 
-	if options.GetPathValueFromRequest == nil {
-		options.GetPathValueFromRequest = DefaultGetPathValueFromRequest
+	if options.GetAccountIDFromRequest == nil {
+		options.GetAccountIDFromRequest = DefaultGetAccountIDFromRequest
 	}
 
 	c := &Client{
@@ -153,18 +161,6 @@ func New(options Options) *Client {
 	return c
 }
 
-func (c *Client) getAccountID(req *http.Request) (string, string) {
-	if accountID := c.options.GetPathValueFromRequest(req, "accountId"); accountID != "" {
-		return accountID, "path"
-	}
-
-	if accountID := req.Header.Get("X-Account-ID"); accountID != "" {
-		return accountID, "header"
-	}
-
-	return "", "not-found"
-}
-
 // Do sends an HTTP request and returns an HTTP response.
 // The actual HTTP Client provided in the Options is used to make the requests
 // and also to retrieve the required access token.
@@ -172,7 +168,7 @@ func (c *Client) getAccountID(req *http.Request) (string, string) {
 func (c *Client) Do(req *http.Request) (*http.Response, error) {
 
 	// get account id from request
-	accountID, accountIDSource := c.getAccountID(req)
+	accountID, accountIDSource := c.options.GetAccountIDFromRequest(req)
 	slog.Debug("groupcache_oidcpismo: Client.Do",
 		"accountId", accountID,
 		"accountIdSource", accountIDSource)
