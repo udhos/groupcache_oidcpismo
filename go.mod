@@ -7,7 +7,7 @@ require (
 	github.com/modernprogram/groupcache/v2 v2.7.13
 	github.com/prometheus/client_golang v1.23.2
 	github.com/udhos/groupcache_exporter v1.3.8
-	github.com/udhos/oidcpismo v0.1.0
+	github.com/udhos/oidcpismo v1.0.0
 )
 
 require (
@@ -19,6 +19,6 @@ require (
 	github.com/prometheus/procfs v0.20.1 // indirect
 	github.com/segmentio/fasthash v1.0.3 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
-	golang.org/x/sys v0.41.0 // indirect
+	golang.org/x/sys v0.42.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 )
