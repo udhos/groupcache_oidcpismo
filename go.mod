@@ -1,13 +1,13 @@
 module github.com/udhos/groupcache_oidcpismo
 
-go 1.26.1
+go 1.26.2
 
 require (
 	github.com/golang-jwt/jwt/v5 v5.3.1
-	github.com/modernprogram/groupcache/v2 v2.7.13
+	github.com/modernprogram/groupcache/v2 v2.7.14
 	github.com/prometheus/client_golang v1.23.2
-	github.com/udhos/groupcache_exporter v1.3.8
-	github.com/udhos/oidcpismo v1.0.0
+	github.com/udhos/groupcache_exporter v1.3.9
+	github.com/udhos/oidcpismo v1.0.1
 )
 
 require (
@@ -19,6 +19,6 @@ require (
 	github.com/prometheus/procfs v0.20.1 // indirect
 	github.com/segmentio/fasthash v1.0.3 // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
-	golang.org/x/sys v0.42.0 // indirect
+	golang.org/x/sys v0.43.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 )
