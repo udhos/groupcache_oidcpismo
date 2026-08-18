@@ -786,7 +786,7 @@ func newClient(tokenURL string, softExpire int,
 	opt := Options{
 		Options:             options,
 		SoftExpireInSeconds: softExpire,
-		GroupcacheWorkspace: groupcache.NewWorkspace(),
+		GroupcacheWorkspace: groupcache.NewWorkspace(groupcache.DefaultResponseHeaderTimeout),
 	}
 
 	client := New(opt)

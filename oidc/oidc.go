@@ -154,7 +154,7 @@ func New(options Options) *Client {
 		HotCacheWeight:  options.GroupcacheHotCacheWeight,
 	}
 
-	group := groupcache.NewGroupWithWorkspace(o)
+	group := groupcache.NewGroup(o)
 
 	c.group = group
 
